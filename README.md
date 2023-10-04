@@ -12,7 +12,7 @@ Change the database details in .env file
     DB_USERNAME=root
     DB_PASSWORD=
 
-Change the paypal client id & secret key from .env (you will get from <a href="https://www.paypal.com/signin">https://www.paypal.com/signin</a>)
+Change the paypal client id & secret key from .env (you will get from <a href="https://developer.paypal.com/tools/sandbox/accounts/">https://developer.paypal.com/tools/sandbox/accounts/</a>)
     PAYPAL_MODE=sandbox
     PAYPAL_SANDBOX_CLIENT_ID= your_client_id 
     PAYPAL_SANDBOX_CLIENT_SECRET= your_client_secret
