@@ -7,7 +7,6 @@ use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use DB;
-use Illuminate\Support\Facades\Redis;
 
 class HomeController extends Controller
 {
@@ -15,13 +14,21 @@ class HomeController extends Controller
         if(!isset($_COOKIE['user_id'])){
             setcookie('user_id', uniqid(), time() + (86400 * 30), "/");
         }
-        $this->data['cartValue'] = Cart::where('user_id',$_COOKIE['user_id'])->count();
+        if(isset($_COOKIE['user_id'])){
+            $this->data['cartValue'] = Cart::where('user_id',$_COOKIE['user_id'])->count();
+        }
     }
 
     public function index(){
-        $this->data['products'] = Product::select('product.*',  \DB::raw('IF(carts.product_id != "", 1, 0) as cart_product'))->leftJoin('carts', function($join){
+        $userId = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : uniqid();
+       
+        if(!isset($_COOKIE['user_id'])){
+            setcookie('user_id', $userId, time() + (86400 * 30), "/");
+        }
+
+        $this->data['products'] = Product::select('product.*',  \DB::raw('IF(carts.product_id != "", 1, 0) as cart_product'))->leftJoin('carts', function($join) use ($userId) {
             $join->on('carts.product_id', '=', 'product.id')
-            ->on('carts.user_id', '=', \DB::raw('"' . $_COOKIE['user_id'] . '"'));
+            ->on('carts.user_id', '=', \DB::raw('"' . $userId . '"') );
         })->limit(3)->get();
         // echo "<pre>"; print_r($this->data['products']); exit;
         return view('index', $this->data);
