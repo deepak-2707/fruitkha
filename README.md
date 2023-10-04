@@ -17,7 +17,8 @@ Change the paypal client id & secret key from .env (you will get from <a href="h
     PAYPAL_SANDBOX_CLIENT_ID= your_client_id 
     PAYPAL_SANDBOX_CLIENT_SECRET= your_client_secret
 
-Run the command to migrate table into database #php artisan migrate
+
+Import db.sql file into database
 Run the project by using command #php artisan serve
 
 
